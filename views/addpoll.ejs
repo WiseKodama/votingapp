@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create new poll</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="app/models/polls.js"></script>
+        <style>
+            body{
+                text-align:center;
+            }
+            .body{
+                text-align:left;
+                width:30%;
+                height:auto;
+                margin:0 auto;
+                margin-top:70px;
+            }
+            input{
+                border-radius:5px;
+                border:0.1px solid gray;
+                width:150px;
+                padding:5px;
+                height:30px;
+                margin:5px 0px;
+                font-size:15px;
+            }
+            input:focus{
+                outline:none;
+                border:none;
+                box-shadow:0px 5px 15px 0px gray;
+            }
+            a{
+                text-decoration:none !important;
+            }
+            a:hover{
+                transform:scale(1.2);
+                color:#ECEFF1 !important;
+
+            }
+            .navbar{
+                background:black;
+                border-radius:0px;
+                height:50px;
+            }
+            .navbar-brand{
+                padding:10px;
+            }
+            button{
+                background:black;
+                color:#ECEFF1;
+                padding:2px 2px;
+                border-radius:5px;
+                border:0px solid white;
+                height:20px;
+                width:20px;
+                font-size:12px;
+                margin:0px 5px;
+            }
+            button:hover{
+                box-shadow:0px 2px 2px 0px gray;
+                transform:translate(0px,-2px);
+            }
+            .thin{
+                width:0px;
+                overflow:hidden;
+                height:30px;
+                opacity:0;
+                transition:all 0.75s ease;
+
+            }
+            .login{
+                width:160px;
+                opacity:1;
+                height:30px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .signup{
+                width:240px;
+                opacity:1;
+                height:30px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .navbar-right{
+                display:inline-flex;
+                margin:0px;
+            }
+            .navbar-fixed-bottom{
+                height:50px;
+                background:black;
+                color:#ECEFF1;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+        var counter = 3;
+        function addInput(){
+            var newOne = document.createElement('div');
+            newOne.id=counter;
+            newOne.innerHTML = '<input type="text" placeholder="Option '+counter+'" name="options[]"><button type="button" onclick="removeInput(this)"><i class="fa fa-times"></i></button><br>';
+            document.getElementById('newPoll').appendChild(newOne);
+            counter++;
+        }
+        function removeInput(elem){
+            elem.parentNode.parentNode.removeChild(elem.parentNode);     
+            counter--;
+        }
+        function submitPoll(){
+            if(document.getElementById('addT').validity.valid && document.getElementById('addO').validity.valid){
+            var myForm = document.getElementById('newPoll');
+            myForm.submit();}
+        }
+        </script>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <img src="https://s29.postimg.org/3wl4voyx3/Logo_Kodama.png" width="30px;">
+                </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/latest"><i class="fa fa-pie-chart"></i></a></li>
+                    </ul>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/profile">Welcome, <%= user %> <i class="fa fa-hand-spock-o"></i></a></li>
+                        <li><a href="/logout" class="fa fa-hand-peace-o"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="body">
+        <h2>Create new poll</h2>
+        <form id="newPoll" method="post" action="/addpoll">
+            <label>Query</label><br>
+            <input id="addT" type="text" placeholder="Poll Title" id="pollTitle" name="title" pattern=".{1,}" required><br>
+            <label>Possible answers</label><br>
+            <input id="addO" type="text" placeholder="Option 1" name="options[]" pattern=".{1,}" required><br>
+            <input type="text" placeholder="Option 2" name="options[]" pattern=".{1,}"><br>
+        </form>
+        <button style="margin:0 auto;" type="button" class="fa fa-plus" onclick="addInput()"></button><br>
+        <button style="width:150px;height:30px;padding:2px;margin:5px 0px;" type="button" class="fa fa-pie-chart" onclick="submitPoll()"> Create poll</button>
+        <h6 id="fart"></h6>
+        </div>
+        <nav class="navbar-fixed-bottom">
+            <h6><i class="fa fa-copyright"></i> WiseKodama 2017</h6>
+        </nav>
+    </body>
+</html>

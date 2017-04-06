@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Voting App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.0/axios.min.js"></script>
+        <script src="app/charts.js"></script>
+        <style>
+            body{
+                text-align:center;
+            }
+            input{
+                border-radius:5px;
+                border:0px solid white;
+                background:#ECEFF1;
+                width:70px;
+                padding:3px;
+                height:20px;
+                margin:0px 0px;
+                font-size:10px;
+            }
+            .navbar{
+                background:black;
+                border-radius:0px;
+                height:50px;
+            }
+            .body{
+                margin-top:70px;
+            }
+            .navbar-brand{
+                padding:10px;
+            }
+            a{
+                text-decoration:none !important;
+                cursor:pointer !important;
+                margin:0px 10px;
+                border:none;
+                color:gray;
+                font-size:14px;
+            }
+            a:hover{
+                transform:scale(1.2);
+                color:#ECEFF1 !important;
+            }
+            .thin{
+                width:0px;
+                overflow:hidden;
+                height:30px;
+                margin:15px 0px;
+                opacity:0;
+                transition:all 0.75s ease;
+
+            }
+            .login{
+                width:160px;
+                opacity:1;
+                height:30px;
+                margin:15px 0px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .signup{
+                width:240px;
+                opacity:1;
+                height:30px;
+                margin:15px 0px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .navbar-right{
+                display:inline-flex;
+                margin:0px;
+            }
+            .navbar-fixed-bottom{
+                height:50px;
+                background:black;
+                color:#ECEFF1;
+            }
+            #legends li:hover{
+                cursor:pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+        myData = [];
+        myResults = [];
+        function signup(){
+        if(document.getElementById('susername').validity.valid && document.getElementById('semail').validity.valid && document.getElementById('spassword').validity.valid){
+             $('#signupForm').submit();
+        }else{
+          $('#loginDiv').removeClass('login').addClass('thin');  
+          $('#signupDiv').removeClass('thin').addClass('signup');
+          $('#lusername').val("");
+          $('#lpassword').val("");
+        }
+        };
+        function login(){
+        if(document.getElementById('lusername').validity.valid && document.getElementById('lpassword').validity.valid){
+            $('#loginForm').submit();
+        }
+        else{
+          $('#loginDiv').removeClass('thin').addClass('login');
+          $('#signupDiv').removeClass('signup').addClass('thin');
+          $('#susername').val("");
+          $('#semail').val("");
+          $('#spassword').val("");
+        }
+        };
+        $(document).ready(function(){
+          $('#loginForm').keypress(function(e) {
+            if (e.which == 13) {
+            login();
+            }
+          });
+         $('#signupForm').keypress(function(e) {
+            if (e.which == 13) {
+              signup();
+            }
+          });
+});
+        </script>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <img src="https://s29.postimg.org/3wl4voyx3/Logo_Kodama.png" width="30px;">
+                </div>
+                <ul class="navbar-left navbar-nav nav">
+                        <li><a class="fa fa-home" href="/"></a><li>
+                        <li><a class="fa fa-pie-chart" href="/latest"></a></li>
+                </ul>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <% if(user.length > 0){ %><li><a href="/profile">Welcome, <%= user %> <i class="fa fa-hand-spock-o"></i></a></li>
+                        <li><a href="/logout" class="fa fa-hand-peace-o"></a></li><% } else { %><li><% if (message.length > 0) { %>
+            <p style="padding:0px;margin:17px 0px;font-size:10px;color:#ECEFF1;cursor:pointer !important;" href="#" class="alert alert-dismissable fade in" data-dismiss="alert"><%= message %> &times;</p>
+                <% } %></li>
+                        <li><div id="loginDiv" class="login">
+                                    <form id="loginForm" style="width:160px;" class="form-inline" action="/login" method="post">
+                                        <input type="text" pattern=".{6,}" placeholder="User" id="lusername" name="lusername" required>
+                                        <input type="password" pattern=".{6,}" placeholder="Password" id="lpassword" name="lpassword" required>
+                                    </form>
+                        </div></li>
+                        <li><a class="fa fa-user" onclick="login()"></a></li>
+                        <li><div id="signupDiv" class="thin">
+                                    <form id="signupForm" style="width:240px;" class="form-inline" action="/signup" method="post">
+                                        <input type="text" placeholder="User" id="susername" pattern=".{6,}" name="susername" required>
+                                        <input type="email" placeholder="Email" id="semail" pattern=".{6,}" name="semail" required>
+                                        <input type="password" placeholder="Password" id="spassword" pattern=".{6,}" name="spassword" required>
+                                    </form>
+                        </div></li>
+                        <li><a class="fa fa-user-plus" onclick="signup()"></a></li><% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="body">
+        <h2><i class="fa fa-pie-chart"></i> Voting App</h2>
+        <h6>FCC Back end challenge</h6>
+        <p>You are able to vote on polls, but in order to create new polls please use signup/login.<br>You are able to add options to a poll, only if you haven't already voted on that particular poll.<br>Your voice can only be heard once per poll, sorry.</p>
+        <h5><%=mainChart.title%></h5><div style="display:inline-flex;text-decoration:none;" id="legends"></div>
+        <canvas style="margin:0 auto;" id="mainCanvas" width="350" height="350"></canvas>
+        <% if(mainChart) { %><script>makeChart(<%- JSON.stringify(mainChart.data)%>,<%-JSON.stringify(mainChart.results)%>,<%-JSON.stringify(mainChart.canVote)%>,<%-JSON.stringify(mainChart.id)%>)</script><% } %></div>
+        <nav class="navbar-fixed-bottom">
+            <h6><i class="fa fa-copyright"></i> WiseKodama 2017</h6>
+        </nav>
+    </body>
+</html>

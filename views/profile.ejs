@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome, <%= user %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            body{
+                text-align:center;
+            }
+            input{
+                border-radius:5px;
+                border:0px solid white;
+                width:70px;
+                padding:3px;
+                height:20px;
+                margin:3px 0px;
+                font-size:10px;
+            }
+            a{
+                text-decoration:none !important;
+                cursor:pointer !important;
+                margin:0px 10px;
+                border:none;
+                color:gray;
+                font-size:14px;
+            }
+            a:hover{
+                 color:#ECEFF1 !important;
+                 transform:scale(1.2);
+            }
+            .navbar{
+                background:black;
+                border-radius:0px;
+                height:50px;
+            }
+            .navbar-brand{
+                padding:10px;
+            }
+            button{
+                padding:0px;
+                margin:15px 5px;
+                border-radius:5px;
+                border:0px solid white;
+                width:40px;
+                height:20px;
+                font-size:10px;
+            }
+            .thin{
+                width:0px;
+                overflow:hidden;
+                height:30px;
+                opacity:0;
+                transition:all 0.75s ease;
+
+            }
+            .login{
+                width:160px;
+                opacity:1;
+                height:30px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .signup{
+                width:240px;
+                opacity:1;
+                height:30px;
+                overflow:hidden;
+                transition:all 0.75s ease;
+            }
+            .navbar-right{
+                display:inline-flex;
+                margin:0px;
+            }
+            .body{
+                margin-top:70px;
+            }
+            .navbar-fixed-bottom{
+                height:50px;
+                background:black;
+                color:#ECEFF1;
+            }
+            .darkLink{
+                color:black !important;
+                font-weight:500;
+            }
+            .darkLink:hover{
+                color:#ECEFF1 !important;
+                background:black;
+                font-weight:500;
+                padding:5px;
+                border-radius:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <img src="https://s29.postimg.org/3wl4voyx3/Logo_Kodama.png" width="30px;">
+                </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/latest"><i class="fa fa-pie-chart"></i></a></li>
+                    </ul>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/profile">Welcome, <%= user %> <i class="fa fa-hand-spock-o"></i></a></li>
+                        <li><a href="/logout" class="fa fa-hand-peace-o"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="body">
+            <h2>My polls</h2>
+            <a class="darkLink" href="/addpoll">Create new poll <i class="fa fa-plus-circle"></i></a><br>
+            <%- userPolls %>
+        </div>
+        <nav class="navbar-fixed-bottom">
+            <h6><i class="fa fa-copyright"></i> WiseKodama 2017</h6>
+        </nav>
+    </body>
+</html>
